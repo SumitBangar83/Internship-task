@@ -2,40 +2,50 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+// Task class representing a task with name, description, and due date
 class Task {
     private String name;
     private String description;
     private String dueDate;
 
+    // Constructor to initialize Task object with name, description, and due date
     public Task(String name, String description, String dueDate) {
         this.name = name;
         this.description = description;
         this.dueDate = dueDate;
     }
 
+    // Getter method for task name
     public String getName() {
         return name;
     }
 
+    // Getter method for task description
     public String getDescription() {
         return description;
     }
 
+    // Getter method for task due date
     public String getDueDate() {
         return dueDate;
     }
 
+    // Override toString method to provide string representation of Task object
     @Override
     public String toString() {
         return "Name: " + name + ", Description: " + description + ", Due Date: " + dueDate;
     }
 }
 
+// TaskManager class to manage tasks
 public class TaskManager {
+    // HashMap to store tasks for each user
     private static HashMap<String, ArrayList<Task>> userTasks = new HashMap<>();
     private static Scanner scanner = new Scanner(System.in);
 
+    // Main method to start the program
     public static void main(String[] args) {
+        // Main menu loop
         while (true) {
             System.out.println("\nTask Management System");
             System.out.println("1. Login");
@@ -46,28 +56,32 @@ public class TaskManager {
 
             switch (choice) {
                 case 1:
-                    login();
+                    login(); // Call login method
                     break;
                 case 2:
                     System.out.println("Exiting...");
-                    System.exit(0);
+                    System.exit(0); // Exit the program
                 default:
                     System.out.println("Invalid choice. Please enter a number between 1 and 2.");
             }
         }
     }
 
+    // Method for user login
     private static void login() {
         System.out.print("Enter username: ");
         String username = scanner.nextLine();
         // Simulate authentication, you can extend it to real authentication mechanism
+        // If user doesn't exist, create a new empty task list for the user
         if (!userTasks.containsKey(username)) {
             userTasks.put(username, new ArrayList<>());
         }
-        showMenu(username);
+        showMenu(username); // Call showMenu method with the logged in username
     }
 
+    // Method to show menu options for a logged in user
     private static void showMenu(String username) {
+        // Menu loop
         while (true) {
             System.out.println("\nTask Management System - " + username);
             System.out.println("1. Add Task");
@@ -80,22 +94,23 @@ public class TaskManager {
 
             switch (choice) {
                 case 1:
-                    addTask(username);
+                    addTask(username); // Call addTask method
                     break;
                 case 2:
-                    removeTask(username);
+                    removeTask(username); // Call removeTask method
                     break;
                 case 3:
-                    listTasks(username);
+                    listTasks(username); // Call listTasks method
                     break;
                 case 4:
-                    return;
+                    return; // Logout
                 default:
                     System.out.println("Invalid choice. Please enter a number between 1 and 4.");
             }
         }
     }
 
+    // Method to add a task for a user
     private static void addTask(String username) {
         System.out.print("Enter task name: ");
         String name = scanner.nextLine();
@@ -104,13 +119,14 @@ public class TaskManager {
         System.out.print("Enter due date: ");
         String dueDate = scanner.nextLine();
 
-        Task task = new Task(name, description, dueDate);
-        userTasks.get(username).add(task);
+        Task task = new Task(name, description, dueDate); // Create a new Task object
+        userTasks.get(username).add(task); // Add task to user's task list
         System.out.println("Task added successfully!");
     }
 
+    // Method to remove a task for a user
     private static void removeTask(String username) {
-        ArrayList<Task> tasks = userTasks.get(username);
+        ArrayList<Task> tasks = userTasks.get(username); // Get user's task list
         if (tasks.isEmpty()) {
             System.out.println("No tasks to remove.");
             return;
@@ -130,12 +146,13 @@ public class TaskManager {
             return;
         }
 
-        tasks.remove(index - 1);
+        tasks.remove(index - 1); // Remove task from user's task list
         System.out.println("Task removed successfully!");
     }
 
+    // Method to list tasks for a user
     private static void listTasks(String username) {
-        ArrayList<Task> tasks = userTasks.get(username);
+        ArrayList<Task> tasks = userTasks.get(username); // Get user's task list
         if (tasks.isEmpty()) {
             System.out.println("No tasks available.");
             return;
